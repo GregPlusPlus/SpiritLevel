@@ -1,73 +1,79 @@
-#include "accelerometer.h"
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <math.h>
 
-static App_t a = {.name = "Accelerometer", .init = Accelerometer_Init, .loop = Accelerometer_Loop};
+#include "api.h"
+#include "ssd1306.h"
+#include "bmp.h"
+#include "api_bmx.h"
 
-static uint32_t t = 0;
-static float quantum = 1;
-static uint8_t axis = 0;
+ uint32_t t = 0;
+ float quantum = 1;
+ uint8_t axis = 0;
 
-static float accX[SSD1306_WIDTH];
-static float accY[SSD1306_WIDTH];
-static float accZ[SSD1306_WIDTH];
+ float accX[SSD1306_WIDTH];
+ float accY[SSD1306_WIDTH];
+ float accZ[SSD1306_WIDTH];
 
-static void initArrays(void);
-static void rollData(float *array, size_t s, float data);
-static float *currentBuffer(uint8_t axis);
-static void readAxis(uint8_t axis);
-static float getMax(uint8_t axis);
-static float getMin(uint8_t axis);
-static void plot(uint8_t axis);
-static void drawAxisName(uint8_t axis);
-static void drawValue(uint8_t axis);
-static void drawAxis(void);
+ void initArrays(void);
+ void rollData(float *array, size_t s, float data);
+ float *currentBuffer(uint8_t axis);
+ void readAxis(uint8_t axis);
+ float getMax(uint8_t axis);
+ float getMin(uint8_t axis);
+ void plot(uint8_t axis);
+ void drawAxisName(uint8_t axis);
+ void drawValue(uint8_t axis);
+ void drawAxis(void);
 
-App_t *Accelerometer_GetApp(void) {
-    return &a;
-}
-
-void Accelerometer_Init(void) {
+void app_main(void) {
     axis = 0;
-    t = HAL_GetTick();
+    t = sysTick();
     initArrays();
     API_BMX_ACC_Reset();
     API_BMX_ACC_SetRange(4);
     quantum = API_BMX_ACC_GetQuantum();
-}
 
-void Accelerometer_Loop(void) {
-    if(API_getLastEvents() & EV_PB_LEFT) {
-        if(axis == 0) {
-            axis = 2;
-        } else {
-            axis --;
-        }
-    }
-
-    if(API_getLastEvents() & EV_PB_MID) {
-        API_Quit();
-    }
-
-    if(API_getLastEvents() & EV_PB_RIGHT) {
-        if(axis == 2) {
-            axis = 0;
-        } else {
-            axis ++;
-        }
-    }
-
-    if((HAL_GetTick() - t) >= 1) {
-        t = HAL_GetTick();
+    while(1) {
+        API_updateEvents();
         
-        readAxis(axis);
+        if(API_getLastEvents() & EV_PB_LEFT) {
+            if(axis == 0) {
+                axis = 2;
+            } else {
+                axis --;
+            }
+        }
 
-        ssd1306_Fill(Black);
-        drawAxis();
-        plot(axis);
-        drawAxisName(axis);
-        drawValue(axis);
-        ssd1306_UpdateScreen();
+        if(API_getLastEvents() & EV_PB_MID) {
+            return;
+        }
+
+        if(API_getLastEvents() & EV_PB_RIGHT) {
+            if(axis == 2) {
+                axis = 0;
+            } else {
+                axis ++;
+            }
+        }
+
+        if((sysTick() - t) >= 1) {
+            t = sysTick();
+            
+            readAxis(axis);
+
+            ssd1306_Fill(Black);
+            drawAxis();
+            plot(axis);
+            drawAxisName(axis);
+            drawValue(axis);
+            ssd1306_UpdateScreen();
+        }
     }
 }
+
 
 void initArrays(void) {
     for(size_t i = 0; i < SSD1306_WIDTH; i ++) {
@@ -118,7 +124,7 @@ void readAxis(uint8_t axis) {
     }
 }
 
-static float getMax(uint8_t axis) {
+ float getMax(uint8_t axis) {
     float *buff = currentBuffer(axis);
 
     float max = NAN;
@@ -138,7 +144,7 @@ static float getMax(uint8_t axis) {
     return max;
 }
 
-static float getMin(uint8_t axis) {
+ float getMin(uint8_t axis) {
     float *buff = currentBuffer(axis);
 
     float min = NAN;
@@ -190,25 +196,25 @@ void plot(uint8_t axis) {
     }
 }
 
-static void drawAxisName(uint8_t axis) {
+ void drawAxisName(uint8_t axis) {
     ssd1306_SetCursor(0, 0);
 
     switch(axis) {
         case 0:
-        ssd1306_WriteString("X", Font_7x10, White);
+        ssd1306_WriteString("X", *Font_7x10, White);
             break;
         case 1:
-        ssd1306_WriteString("Y", Font_7x10, White);
+        ssd1306_WriteString("Y", *Font_7x10, White);
             break;
         case 2:
-        ssd1306_WriteString("Z", Font_7x10, White);
+        ssd1306_WriteString("Z", *Font_7x10, White);
             break;
         default :
             break;
     }
 }
 
-static void drawValue(uint8_t axis) {
+ void drawValue(uint8_t axis) {
     char buff[20];
     float acc = currentBuffer(axis)[SSD1306_WIDTH - 1];
 
@@ -216,10 +222,10 @@ static void drawValue(uint8_t axis) {
         return;
     }
 
-    snprintf(buff, sizeof(buff), "%.2f m.s-2", acc);
+    core_snprintf(buff, sizeof(buff), "%.2f m.s-2", acc);
 
     ssd1306_SetCursor(10, 0);
-    ssd1306_WriteString(buff, Font_6x8, White);
+    ssd1306_WriteString(buff, *Font_6x8, White);
 }
 
 void drawAxis(void) {

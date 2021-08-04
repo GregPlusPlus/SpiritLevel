@@ -1,0 +1,4 @@
+Accelerometer
+1.0
+Gregoire
+A real-time acceleration visualizer
