@@ -1,0 +1,1 @@
+This gadget is built around an STM32F411. It is equipped with an OLED screen, some sensors and 512MiB of onboard storage.
