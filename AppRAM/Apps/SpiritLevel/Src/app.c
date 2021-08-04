@@ -81,7 +81,7 @@ void app_main(void) {
                     API_IO_SetLED(fabs(meanTilt) < DELTA);
 
                     char buffer[100];
-                    core_snprintf(buffer, sizeof(buffer), "%.2f %s", meanTilt, "deg");
+                    core_snprintf(buffer, sizeof(buffer), "%.2f deg", meanTilt);
 
                     int textX = (SSD1306_WIDTH / 2) - (ssd1306_GetTextWidth(*Font_11x18, buffer) / 2);
 

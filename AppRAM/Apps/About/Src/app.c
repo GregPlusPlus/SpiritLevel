@@ -243,7 +243,7 @@ void manageStorage(void) {
 
     ssd1306_Fill(Black);
 
-    snprintf(buff, sizeof(buff), "Total: %lu KiB\n" \
+    core_snprintf(buff, sizeof(buff), "Total: %lu KiB\n" \
                                  "Free : %lu KiB\n" \
                                  "Used : %.2f%%",
                                  total / 1024, free / 1024, (float)(total - free) * 100 / (float)total);
