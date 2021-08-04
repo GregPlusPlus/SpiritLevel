@@ -1,4 +1,0 @@
-Test app
-1.0
-Gregoire
-This is a simple demo app that runs from ram.
