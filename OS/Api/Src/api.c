@@ -16,7 +16,7 @@ void API_DispERROR(char *str) {
     ssd1306_Fill(Black);
     ssd1306_SetCursor(0, 0);
     ssd1306_SetWordWrap(true);
-    ssd1306_WriteString(str, Font_7x10, White);
+    ssd1306_WriteString(str, Font_6x8, White);
     ssd1306_UpdateScreen();
 
     while(1);

@@ -4,13 +4,12 @@
 #include <stdarg.h>
 
 #include "api.h"
-#include "api_hook_ids.h"
 
 #include "ff.h"
 #include "fatfs.h"
 #include "ui.h"
 #include "utils.h"
 
-uint32_t API_hook(uint32_t id);
+uint32_t API_hook(const char *label);
 
 #endif // APIT_HOOK_H
