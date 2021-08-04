@@ -5,9 +5,11 @@
 #include "bmp.h"
 #include "ui.h"
 
+#define _HOOK(label) hookFunction((uint32_t*)&label, #label);
+
 uint32_t    API_hook_addr;
 
-uint32_t    (*API_hook)(uint32_t id);
+uint32_t    (*API_hook)(const char *label);
 
 uint32_t    (*sysTick)(void);
 Event_t     (*API_getLastEvents)(void);
@@ -176,178 +178,181 @@ void (*UTILS_getStorageUsage)(uint32_t *free, uint32_t *total);
 
 void (*Delay)(uint32_t ms);
 
-//int (*core_snprintf)(char *s, size_t n, const char *format, va_list args);
-int (*core_snprintf)(char *s, size_t n, const char *format, ...);
+int (*core_snprintf)(char *s, size_t n, const char * format, ...);
+
+void hookFunction(uint32_t *f, const char *label) {
+    *f = API_hook(label);
+}
 
 void HOOK_init(void) {
-    API_hook                    = (uint32_t(*)(uint32_t))API_hook_addr;
+    API_hook                    = (uint32_t(*)(const char *label))API_hook_addr;
 
-    sysTick                     = (uint32_t(*)(void))API_hook(API_HOOK_SYSTICK);
-    API_getLastEvents           = (Event_t (*)(void))API_hook(API_HOOK_API_GET_LAST_EVENTS);
-    API_updateEvents            = (void(*)(void))API_hook(API_HOOK_UPDATE_EVENTS);
-    API_Quit                    = (void (*)(void))API_hook(API_HOOK_API_QUIT);
+    _HOOK(sysTick)
+    _HOOK(API_getLastEvents)
+    _HOOK(API_updateEvents)
+    _HOOK(API_Quit)
 
-    API_DispERROR               = (void (*)(char *))API_hook(API_HOOK_API_DISPERROR);
+    _HOOK(API_DispERROR)
 
-    API_IO_SetFlashlight        = (void (*)(uint8_t))API_hook(API_HOOK_API_IO_SETFLASHLIGHT);
-    API_IO_SetLED               = (void (*)(bool))API_hook(API_HOOK_API_IO_SETLED);
-    API_IO_ToggleLED            = (void (*)(void))API_hook(API_HOOK_API_IO_TOGGLELED);
-    API_IO_ReadPB1              = (bool (*)(void))API_hook(API_HOOK_API_IO_READPB1);
-    API_IO_ReadPB2              = (bool (*)(void))API_hook(API_HOOK_API_IO_READPB2);
-    API_IO_ReadPB3              = (bool (*)(void))API_hook(API_HOOK_API_IO_READPB3);
+    _HOOK(API_IO_SetFlashlight)
+    _HOOK(API_IO_SetLED)
+    _HOOK(API_IO_ToggleLED)
+    _HOOK(API_IO_ReadPB1)
+    _HOOK(API_IO_ReadPB2)
+    _HOOK(API_IO_ReadPB3)
 
-    API_ADC_ReadA0              = (uint16_t (*)(void))API_hook(API_HOOK_API_ADC_READA0);
+    _HOOK(API_ADC_ReadA0)
 
-    API_RNG_GetEntropy          = (uint32_t (*)(void))API_hook(API_HOOK_API_RNG_GETENTROPY);
-    API_RNG_Init                = (void (*)(void))API_hook(API_HOOK_API_RNG_INIT);
-    API_RNG_randRange           = (int32_t (*)(int32_t, int32_t))API_hook(API_HOOK_API_RNG_RANDRANGE);
+    _HOOK(API_RNG_GetEntropy)
+    _HOOK(API_RNG_Init)
+    _HOOK(API_RNG_randRange)
 
-    API_BMX_ACC_Reset           = (void (*)(void))API_hook(API_HOOK_API_BMX_ACC_RESET);
-    API_BMX_ACC_SetRange        = (void (*)(uint8_t))API_hook(API_HOOK_API_BMX_ACC_SETRANGE);
-    API_BMX_ACC_GetRange        = (uint8_t (*)(void))API_hook(API_HOOK_API_BMX_ACC_GETRANGE);
-    API_BMX_ACC_GetQuantum      = (float (*)(void))API_hook(API_HOOK_API_BMX_ACC_GETQUANTUM);
-    API_BMX_ACC_Axis            = (int16_t (*)(bool *, uint8_t))API_hook(API_HOOK_API_BMX_ACC_AXIS);
-    API_BMX_ACC_X               = (int16_t (*)(bool *))API_hook(API_HOOK_API_BMX_ACC_X);
-    API_BMX_ACC_Y               = (int16_t (*)(bool *))API_hook(API_HOOK_API_BMX_ACC_Y);
-    API_BMX_ACC_Z               = (int16_t (*)(bool *))API_hook(API_HOOK_API_BMX_ACC_Z);
-    API_BMX_GetTilt             = (float (*)(bool *))API_hook(API_HOOK_API_BMX_GETTILT);
+    _HOOK(API_BMX_ACC_Reset)
+    _HOOK(API_BMX_ACC_SetRange)
+    _HOOK(API_BMX_ACC_GetRange)
+    _HOOK(API_BMX_ACC_GetQuantum)
+    _HOOK(API_BMX_ACC_Axis)
+    _HOOK(API_BMX_ACC_X)
+    _HOOK(API_BMX_ACC_Y)
+    _HOOK(API_BMX_ACC_Z)
+    _HOOK(API_BMX_GetTilt)
 
-    API_BMX_MAG_Reset           = (void (*)(void))API_hook(API_HOOK_API_BMX_MAG_RESET);
-    API_BMX_MAG_ReadReg         = (uint8_t (*)(uint8_t))API_hook(API_HOOK_API_BMX_MAG_READREG);
-    API_BMX_MAG_WriteReg        = (void (*)(uint8_t, uint8_t))API_hook(API_HOOK_API_BMX_MAG_WRITEREG);
-    API_BMX_MAG_ReadCTRLBits    = (uint8_t (*)(void))API_hook(API_HOOK_API_BMX_MAG_READCTRLBITS);
-    API_BMX_MAG_WriteCTRLBits   = (void (*)(uint8_t))API_hook(API_HOOK_API_BMX_MAG_WRITECTRLBITS);
-    API_BMX_MAG_getChipID       = (uint8_t (*)(void))API_hook(API_HOOK_API_BMX_MAG_GETCHIPID);
-    API_BMX_MAG_GetRate         = (uint8_t (*)(void))API_hook(API_HOOK_API_BMX_MAG_GETRATE);
-    API_BMX_MAG_SetRate         = (void (*)(uint8_t))API_hook(API_HOOK_API_BMX_MAG_SETRATE);
-    API_BMX_MAG_GetRepXY        = (uint8_t (*)(void))API_hook(API_HOOK_API_BMX_MAG_GETREPXY);
-    API_BMX_MAG_SetRepXY        = (void (*)(uint8_t))API_hook(API_HOOK_API_BMX_MAG_SETREPXY);
-    API_BMX_MAG_GetVal          = (uint16_t (*)(uint8_t))API_hook(API_HOOK_API_BMX_MAG_GETVAL);
-    API_BMX_MAG_GetMode         = (uint8_t (*)(void))API_hook(API_HOOK_API_BMX_MAG_GETMODE);
-    API_BMX_MAG_SetMode         = (void (*)(uint8_t))API_hook(API_HOOK_API_BMX_MAG_SETMODE);
-    API_BMX_MAG_ToggleSelfTest  = (void (*)(bool))API_hook(API_HOOK_API_BMX_MAG_TOGGLESELFTEST);
-    API_BMX_MAG_SelfTest        = (uint8_t (*)(void))API_hook(API_HOOK_API_BMX_MAG_SELFTEST);
-    API_BMX_MAG_X               = (int16_t (*)(void))API_hook(API_HOOK_API_BMX_MAG_X);
-    API_BMX_MAG_Y               = (int16_t (*)(void))API_hook(API_HOOK_API_BMX_MAG_Y);
-    API_BMX_MAG_Z               = (int16_t (*)(void))API_hook(API_HOOK_API_BMX_MAG_Z);
+    _HOOK(API_BMX_MAG_Reset)
+    _HOOK(API_BMX_MAG_ReadReg)
+    _HOOK(API_BMX_MAG_WriteReg)
+    _HOOK(API_BMX_MAG_ReadCTRLBits)
+    _HOOK(API_BMX_MAG_WriteCTRLBits)
+    _HOOK(API_BMX_MAG_getChipID)
+    _HOOK(API_BMX_MAG_GetRate)
+    _HOOK(API_BMX_MAG_SetRate)
+    _HOOK(API_BMX_MAG_GetRepXY)
+    _HOOK(API_BMX_MAG_SetRepXY)
+    _HOOK(API_BMX_MAG_GetVal)
+    _HOOK(API_BMX_MAG_GetMode)
+    _HOOK(API_BMX_MAG_SetMode)
+    _HOOK(API_BMX_MAG_ToggleSelfTest)
+    _HOOK(API_BMX_MAG_SelfTest)
+    _HOOK(API_BMX_MAG_X)
+    _HOOK(API_BMX_MAG_Y)
+    _HOOK(API_BMX_MAG_Z)
 
-    ssd1306_Init                = (void (*)(void))API_hook(API_HOOK_SSD1306_INIT);
-    ssd1306_Fill                = (void (*)(SSD1306_COLOR))API_hook(API_HOOK_SSD1306_FILL);
-    ssd1306_UpdateScreen        = (void (*)(void))API_hook(API_HOOK_SSD1306_UPDATESCREEN);
-    ssd1306_DrawPixel           = (void (*)(int32_t, int32_t, SSD1306_COLOR))API_hook(API_HOOK_SSD1306_DRAWPIXEL);
-    ssd1306_WriteChar           = (char (*)(char, FontDef, SSD1306_COLOR))API_hook(API_HOOK_SSD1306_WRITECHAR);
-    ssd1306_WriteString         = (char (*)(char*, FontDef, SSD1306_COLOR))API_hook(API_HOOK_SSD1306_WRITESTRING);
-    ssd1306_SetCursor           = (void (*)(int32_t, int32_t))API_hook(API_HOOK_SSD1306_SETCURSOR);
-    ssd1306_SetWordWrap         = (void (*)(bool))API_hook(API_HOOK_SSD1306_SETWORDWRAP);
-    ssd1306_Line                = (void (*)(uint8_t, uint8_t, uint8_t, uint8_t, SSD1306_COLOR))API_hook(API_HOOK_SSD1306_LINE);
-    ssd1306_DrawArc             = (void (*)(uint8_t, uint8_t, uint8_t, uint16_t, uint16_t, SSD1306_COLOR))API_hook(API_HOOK_SSD1306_DRAWARC);
-    ssd1306_DrawCircle          = (void (*)(uint8_t, uint8_t, uint8_t, SSD1306_COLOR))API_hook(API_HOOK_SSD1306_DRAWCIRCLE);
-    ssd1306_Polyline            = (void (*)(const SSD1306_VERTEX *, uint16_t, SSD1306_COLOR))API_hook(API_HOOK_SSD1306_POLYLINE);
-    ssd1306_DrawRectangle       = (void (*)(uint8_t, uint8_t, uint8_t, uint8_t, SSD1306_COLOR))API_hook(API_HOOK_SSD1306_DRAWRECTANGLE);
-    ssd1306_DrawPlainRectangle  = (void (*)(uint8_t, uint8_t, uint8_t, uint8_t, SSD1306_COLOR))API_hook(API_HOOK_SSD1306_DRAWPLAINRECTANGLE);
-    ssd1306_GetTextWidth        = (int (*)(FontDef, const char *))API_hook(API_HOOK_SSD1306_GETTEXTWIDTH);
-    ssd1306_Reset               = (void (*)(void))API_hook(API_HOOK_SSD1306_RESET);
-    ssd1306_WriteCommand        = (void (*)(uint8_t))API_hook(API_HOOK_SSD1306_WRITECOMMAND);
-    ssd1306_WriteData           = (void (*)(uint8_t*, size_t))API_hook(API_HOOK_SSD1306_WRITEDATA);
+    _HOOK(ssd1306_Init)
+    _HOOK(ssd1306_Fill)
+    _HOOK(ssd1306_UpdateScreen)
+    _HOOK(ssd1306_DrawPixel)
+    _HOOK(ssd1306_WriteChar)
+    _HOOK(ssd1306_WriteString)
+    _HOOK(ssd1306_SetCursor)
+    _HOOK(ssd1306_SetWordWrap)
+    _HOOK(ssd1306_Line)
+    _HOOK(ssd1306_DrawArc)
+    _HOOK(ssd1306_DrawCircle)
+    _HOOK(ssd1306_Polyline)
+    _HOOK(ssd1306_DrawRectangle)
+    _HOOK(ssd1306_DrawPlainRectangle)
+    _HOOK(ssd1306_GetTextWidth)
+    _HOOK(ssd1306_Reset)
+    _HOOK(ssd1306_WriteCommand)
+    _HOOK(ssd1306_WriteData)
 
-    Font_6x8                    = (FontDef *)API_hook(API_HOOK_FONT_6X8);
-    Font_7x10                   = (FontDef *)API_hook(API_HOOK_FONT_7X10);
-    Font_11x18                  = (FontDef *)API_hook(API_HOOK_FONT_11X18);
-    Font_16x26                  = (FontDef *)API_hook(API_HOOK_FONT_16X26);
+    _HOOK(Font_6x8)
+    _HOOK(Font_7x10)
+    _HOOK(Font_11x18)
+    _HOOK(Font_16x26)
 
-    API_SHT_Reset               = (void (*)(void))API_hook(API_HOOK_API_SHT_RESET);
-    API_SHT_Write               = (void (*)(uint8_t bits))API_hook(API_HOOK_API_SHT_WRITE);
-    API_SHT_Read                = (uint8_t (*)(void))API_hook(API_HOOK_API_SHT_READ);
-    API_SHT_ReadUsrReg          = (uint8_t (*)(void))API_hook(API_HOOK_API_SHT_READUSRREG);
-    API_SHT_ReadVal             = (uint32_t (*)(uint8_t command))API_hook(API_HOOK_API_SHT_READVAL);
-    API_SHT_ReadTemp            = (uint32_t (*)(void))API_hook(API_HOOK_API_SHT_READTEMP);
-    API_SHT_GetTemp             = (float (*)(void))API_hook(API_HOOK_API_SHT_GETTEMP);
-    API_SHT_ReadRH              = (uint32_t (*)(void))API_hook(API_HOOK_API_SHT_READRH);
-    API_SHT_GetRH               = (float (*)(void))API_hook(API_HOOK_API_SHT_GETRH);
+    _HOOK(API_SHT_Reset)
+    _HOOK(API_SHT_Write)
+    _HOOK(API_SHT_Read)
+    _HOOK(API_SHT_ReadUsrReg)
+    _HOOK(API_SHT_ReadVal)
+    _HOOK(API_SHT_ReadTemp)
+    _HOOK(API_SHT_GetTemp)
+    _HOOK(API_SHT_ReadRH)
+    _HOOK(API_SHT_GetRH)
 
-    API_LPS_Reset               = (void (*)(void))API_hook(API_HOOK_API_LPS_RESET);
-    API_LPS_Write               = (void (*)(uint8_t addr, uint8_t bits))API_hook(API_HOOK_API_LPS_WRITE);
-    API_LPS_Read                = (uint8_t (*)(uint8_t addr))API_hook(API_HOOK_API_LPS_READ);
-    API_LPS_OneShot             = (void (*)(void))API_hook(API_HOOK_API_LPS_ONESHOT);
-    API_LPS_GetPressure         = (int32_t (*)(void))API_hook(API_HOOK_API_LPS_GETPRESSURE);
-    API_LPS_GetOffsetPressure   = (int16_t (*)(void))API_hook(API_HOOK_API_LPS_GETOFFSETPRESSURE);
-    API_LPS_GetTemp             = (int16_t (*)(void))API_hook(API_HOOK_API_LPS_GETTEMP);
+    _HOOK(API_LPS_Reset)
+    _HOOK(API_LPS_Write)
+    _HOOK(API_LPS_Read)
+    _HOOK(API_LPS_OneShot)
+    _HOOK(API_LPS_GetPressure)
+    _HOOK(API_LPS_GetOffsetPressure)
+    _HOOK(API_LPS_GetTemp)
 
-    f_open                      = (FRESULT (*)(FIL*, const TCHAR*, BYTE))API_hook(API_HOOK_F_OPEN);
-    f_close                     = (FRESULT (*)(FIL*))API_hook(API_HOOK_F_CLOSE);
-    f_read                      = (FRESULT (*)(FIL*, void*, UINT, UINT*))API_hook(API_HOOK_F_READ);
-    f_write                     = (FRESULT (*)(FIL*, const void*, UINT, UINT*))API_hook(API_HOOK_F_WRITE);
-    f_lseek                     = (FRESULT (*)(FIL*, FSIZE_t))API_hook(API_HOOK_F_LSEEK);
-    f_truncate                  = (FRESULT (*)(FIL*))API_hook(API_HOOK_F_TRUNCATE);
-    f_sync                      = (FRESULT (*)(FIL*))API_hook(API_HOOK_F_SYNC);
-    f_opendir                   = (FRESULT (*)(DIR*, const TCHAR*))API_hook(API_HOOK_F_OPENDIR);
-    f_closedir                  = (FRESULT (*)(DIR*))API_hook(API_HOOK_F_CLOSEDIR);
-    f_readdir                   = (FRESULT (*)(DIR*, FILINFO*))API_hook(API_HOOK_F_READDIR);
-    //f_findfirst                 = (FRESULT (*)(DIR*, FILINFO*, const TCHAR*, const TCHAR*))API_hook(API_HOOK_F_FINDFIRST);
-    //f_findnext                  = (FRESULT (*)(DIR*, FILINFO*))API_hook(API_HOOK_F_FINDNEXT);
-    f_mkdir                     = (FRESULT (*)(const TCHAR*))API_hook(API_HOOK_F_MKDIR);
-    f_unlink                    = (FRESULT (*)(const TCHAR*))API_hook(API_HOOK_F_UNLINK);
-    f_rename                    = (FRESULT (*)(const TCHAR*, const TCHAR*))API_hook(API_HOOK_F_RENAME);
-    f_stat                      = (FRESULT (*)(const TCHAR*, FILINFO*))API_hook(API_HOOK_F_STAT);
-    //f_chmod                     = (FRESULT (*)(const TCHAR*, BYTE, BYTE))API_hook(API_HOOK_F_CHMOD);
-    //f_utime                     = (FRESULT (*)(const TCHAR*, const FILINFO*))API_hook(API_HOOK_F_UTIME);
-    //f_chdir                     = (FRESULT (*)(const TCHAR*))API_hook(API_HOOK_F_CHDIR);
-    //f_chdrive                   = (FRESULT (*)(const TCHAR*))API_hook(API_HOOK_F_CHDRIVE);
-    //f_getcwd                    = (FRESULT (*)(TCHAR*, UINT))API_hook(API_HOOK_F_GETCWD);
-    f_getfree                   = (FRESULT (*)(const TCHAR*, DWORD*, FATFS**))API_hook(API_HOOK_F_GETFREE);
-    //f_getlabel                  = (FRESULT (*)(const TCHAR*, TCHAR*, DWORD*))API_hook(API_HOOK_F_GETLABEL);
-    //f_setlabel                  = (FRESULT (*)(const TCHAR*))API_hook(API_HOOK_F_SETLABEL);
-    //f_forward                   = (FRESULT (*)(FIL*, UINT(*)(const BYTE*,UINT), UINT, UINT*))API_hook(API_HOOK_F_FORWARD);
-    //f_expand                    = (FRESULT (*)(FIL*, FSIZE_t, BYTE))API_hook(API_HOOK_F_EXPAND);
-    f_mount                     = (FRESULT (*)(FATFS*, const TCHAR*, BYTE))API_hook(API_HOOK_F_MOUNT);
-    f_mkfs                      = (FRESULT (*)(const TCHAR*, BYTE, DWORD, void*, UINT))API_hook(API_HOOK_F_MKFS);
-    //f_fdisk                     = (FRESULT (*)(BYTE, const DWORD*, void*))API_hook(API_HOOK_F_FDISK);
-    f_putc                      = (int (*)(TCHAR, FIL*))API_hook(API_HOOK_F_PUTC);
-    f_puts                      = (int (*)(const TCHAR*, FIL*))API_hook(API_HOOK_F_PUTS);
-    f_printf                    = (int (*)(FIL*, const TCHAR*, ...))API_hook(API_HOOK_F_PRINTF);
-    f_gets                      = (TCHAR* (*)(TCHAR*, int, FIL*))API_hook(API_HOOK_F_GETS);
-    SDFatFS                     = (FATFS*)API_hook(API_HOOK_GETFATFS);
+    _HOOK(f_open)
+    _HOOK(f_close)
+    _HOOK(f_read)
+    _HOOK(f_write)
+    _HOOK(f_lseek)
+    _HOOK(f_truncate)
+    _HOOK(f_sync)
+    _HOOK(f_opendir)
+    _HOOK(f_closedir)
+    _HOOK(f_readdir)
+    //_HOOK(f_findfirst)
+    //_HOOK(f_findnext)
+    _HOOK(f_mkdir)
+    _HOOK(f_unlink)
+    _HOOK(f_rename)
+    _HOOK(f_stat)
+    //_HOOK(f_chmod)
+    //_HOOK(f_utime)
+    //_HOOK(f_chdir)
+    //_HOOK(f_chdrive)
+    //_HOOK(f_getcwd)
+    _HOOK(f_getfree)
+    //_HOOK(f_getlabel)
+    //_HOOK(f_setlabel)
+    //_HOOK(f_forward)
+    //_HOOK(f_expand)
+    _HOOK(f_mount)
+    _HOOK(f_mkfs)
+    //_HOOK(f_fdisk)
+    _HOOK(f_putc)
+    _HOOK(f_puts)
+    _HOOK(f_printf)
+    _HOOK(f_gets)
+    _HOOK(SDFatFS)
 
 #if !_FS_READONLY && !_FS_NORTC
-    get_fattime                 = (DWORD (*)(void))API_hook(API_HOOK_GET_FATTIME);
+    _HOOK(get_fattime)
 #endif
 
 #if _USE_LFN != 0
-    ff_convert                  = (WCHAR (*)(WCHAR, UINT))API_hook(API_HOOK_FF_CONVERT);
-    ff_wtoupper                 = (WCHAR (*)(WCHAR))API_hook(API_HOOK_FF_WTOUPPER);
+    _HOOK(ff_convert)
+    _HOOK(ff_wtoupper)
 #if _USE_LFN == 3
-    ff_memalloc                 = (void* (*)(UINT))API_hook(API_HOOK_FF_MEMALLOC);
-    ff_memfree                  = (void (*)(void*))API_hook(API_HOOK_FF_MEMFREE);
+    _HOOK(ff_memalloc)
+    _HOOK(ff_memfree)
 #endif
 #endif
 
 #if _FS_REENTRANT
-    ff_cre_syncobj              = (int (*)(BYTE, _SYNC_t*))API_hook(API_HOOK_FF_CRE_SYNCOBJ);
-    ff_req_grant                = (int (*)(_SYNC_t))API_hook(API_HOOK_FF_REQ_GRANT);
-    ff_rel_grant                = (void (*ff_rel_grant)(_SYNC_t))API_hook(API_HOOK_FF_REL_GRANT);
-    ff_del_syncobj              = (int (*)(_SYNC_t))API_hook(API_HOOK_FF_DEL_SYNCOBJ);
+    _HOOK(ff_cre_syncobj)
+    _HOOK(ff_req_grant)
+    _HOOK(ff_rel_grant)
+    _HOOK(ff_del_syncobj)
 #endif
 
-    BMP_setFile                 = (void (*)(FIL*))API_hook(API_HOOK_BMP_SETFILE);
-    BMP_zeroBMP                 = (void (*)(BMP_t*))API_hook(API_HOOK_BMP_ZEROBMP);
-    BMP_parseFile               = (BMP_Err_t (*)(BMP_t*))API_hook(API_HOOK_BMP_PARSEFILE);
-    BMP_check                   = (BMP_Err_t (*)(BMP_t*))API_hook(API_HOOK_BMP_CHECK);
-    BMP_readData                = (BMP_Err_t (*)(BMP_t*))API_hook(API_HOOK_BMP_READDATA);
-    BMP_blit                    = (BMP_Err_t (*)(BMP_t*, uint32_t, uint32_t))API_hook(API_HOOK_BMP_BLIT);
-    BMP_release                 = (void (*)(BMP_t*))API_hook(API_HOOK_BMP_RELEASE);
+    _HOOK(BMP_setFile)
+    _HOOK(BMP_zeroBMP)
+    _HOOK(BMP_parseFile)
+    _HOOK(BMP_check)
+    _HOOK(BMP_readData)
+    _HOOK(BMP_blit)
+    _HOOK(BMP_release)
 
-    UI_Menu_Init                = (void (*)(Menu_t*))API_hook(API_HOOK_UI_MENU_INIT);
-    UI_Menu_Draw                = (void (*)(Menu_t*))API_hook(API_HOOK_UI_MENU_DRAW);
-    UI_Menu_Next                = (void (*)(Menu_t*))API_hook(API_HOOK_UI_MENU_NEXT);
-    UI_Menu_Prev                = (void (*)(Menu_t*))API_hook(API_HOOK_UI_MENU_PREV);
+    _HOOK(UI_Menu_Init)
+    _HOOK(UI_Menu_Draw)
+    _HOOK(UI_Menu_Next)
+    _HOOK(UI_Menu_Prev)
 
-    UI_Progressbar_Init         = (void (*)(Progressbar_t*, uint8_t, uint8_t, uint8_t, uint8_t, uint32_t))API_hook(API_HOOK_UI_PROGRESSBAR_INIT);
-    UI_Progressbar_Setvalue     = (void (*)(Progressbar_t*, uint32_t))API_hook(API_HOOK_UI_PROGRESSBAR_SETVALUE);
-    UI_Progressbar_Draw         = (void (*)(Progressbar_t*))API_hook(API_HOOK_UI_PROGRESSBAR_DRAW);
+    _HOOK(UI_Progressbar_Init)
+    _HOOK(UI_Progressbar_Setvalue)
+    _HOOK(UI_Progressbar_Draw)
 
-    UTILS_getStorageUsage       = (void (*)(uint32_t*, uint32_t*))API_hook(API_HOOK_UTILS_GETSTORAGEUSAGE);
+    _HOOK(UTILS_getStorageUsage)
 
-    Delay                       = (void (*)(uint32_t))API_hook(API_HOOK_DELAY);
+    _HOOK(Delay)
 
-    core_snprintf               = (int (*)(char*, size_t, const char*, ...))API_hook(API_HOOK_CORE_SNPRINTF);
+    _HOOK(core_snprintf)
 }

@@ -1,7 +1,6 @@
 #ifndef API_H
 #define API_H
 
-#include <stdarg.h>
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -14,7 +13,7 @@ typedef enum {
     EV_PB_RIGHT     = 0x04
 } Event_t;
 
-extern uint32_t (*API_hook)(uint32_t id);
+extern uint32_t (*API_hook)(const char *label);
 extern uint32_t (*sysTick)(void);
 extern Event_t (*API_getLastEvents)(void);
 extern void (*API_updateEvents)(void);
@@ -39,7 +38,6 @@ extern FATFS *SDFatFS;
 
 extern void (*Delay)(uint32_t ms);
 
-//extern int (*core_snprintf)(char *s, size_t n, const char *format, va_list args);
-extern int (*core_snprintf)(char *s, size_t n, const char *format, ...);
+extern int (*core_snprintf)(char *s, size_t n, const char * format, ...);
 
 #endif

@@ -13,7 +13,7 @@ typedef enum {
     EV_PB_RIGHT     = 0x04
 } Event_t;
 
-extern uint32_t (*API_hook)(uint32_t id);
+extern uint32_t (*API_hook)(const char *label);
 extern uint32_t (*sysTick)(void);
 extern Event_t (*API_getLastEvents)(void);
 extern void (*API_updateEvents)(void);
@@ -37,5 +37,7 @@ extern int32_t (*API_RNG_randRange)(int32_t min, int32_t max);
 extern FATFS *SDFatFS;
 
 extern void (*Delay)(uint32_t ms);
+
+extern int (*core_snprintf)(char *s, size_t n, const char * format, ...);
 
 #endif
