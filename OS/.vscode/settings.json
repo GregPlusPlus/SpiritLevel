@@ -8,7 +8,8 @@
         "cmath": "c",
         "stm32f4xx_hal.h": "c",
         "cstdlib": "c",
-        "*.tcc": "c"
+        "*.tcc": "c",
+        "api_hook.h": "c"
     },
     "stm32-for-vscode.openOCDPath": "openocd"
 }
