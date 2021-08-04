@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"stm32-for-vscode.openocdPath": "openocd",
+		"cortex-debug.openocdPath": "openocd",
+		"stm32-for-vscode.makePath": "make",
+		"stm32-for-vscode.armToolchainPath": "",
+		"cortex-debug.armToolchainPath": "",
+		"files.associations": {
+			"cmath": "c",
+			"stm32f4xx_hal.h": "c",
+			"io_cdc.h": "c",
+			"typeinfo": "c",
+			"menu.h": "c",
+			"api.h": "c",
+			"api_sht.h": "c",
+			"events.h": "c",
+			"event.h": "c"
+		}
+	}
+}

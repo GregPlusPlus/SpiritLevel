@@ -1,0 +1,1 @@
+gdb-multiarch "/mnt/c/Users/Gregoire/Documents/Electronique/UC/STM32/SpiritLevel/build/SpiritLevel.elf" -x target_download.txt

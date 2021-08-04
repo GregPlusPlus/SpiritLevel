@@ -1,0 +1,117 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug target",
+            "type": "cppdbg",
+            "request": "launch",
+            "targetArchitecture": "arm",
+            "program": "./build/SpiritLevel.elf",
+            "miDebuggerServerAddress": "localhost:2331",
+            "cwd": "${workspaceRoot}",
+            "externalConsole": true,
+            "miDebuggerPath": "gdb-multiarch",
+            "linux": {
+                "MIMode": "gdb"
+            },
+            "customLaunchSetupCommands": [
+                {"text": "target remote localhost:2331"},
+                {"text": "monitor device STM32F411CE"},
+                {"text": "file ${workspaceRoot}/build/SpiritLevel.elf"}
+            ]
+        },
+        {
+            "name": "Debug target app",
+            "type": "cppdbg",
+            "request": "launch",
+            "targetArchitecture": "arm",
+            "program": "/../AppRAM/Apps/SpiritLevel/build/SpiritLevel.elf",
+            "miDebuggerServerAddress": "localhost:2331",
+            "cwd": "${workspaceRoot}",
+            "externalConsole": true,
+            "miDebuggerPath": "gdb-multiarch",
+            "linux": {
+                "MIMode": "gdb"
+            },
+            "customLaunchSetupCommands": [
+                {"text": "target remote localhost:2331"},
+                {"text": "monitor device STM32F411CE"},
+                {"text": "file ${workspaceRoot}/../AppRAM/Apps/SpiritLevel/build/SpiritLevel.elf"}
+            ]
+        },
+        {
+            "name": "Flash target",
+            "type": "cppdbg",
+            "request": "launch",
+            "targetArchitecture": "arm",
+            "program": "./build/SpiritLevel.elf",
+            "miDebuggerServerAddress": "localhost:2331",
+            "cwd": "${workspaceRoot}",
+            "externalConsole": true,
+            "miDebuggerPath": "gdb-multiarch",
+            "linux": {
+                "MIMode": "gdb"
+            },
+            "customLaunchSetupCommands": [
+                {"text": "set confirm off"},
+                {"text": "target remote localhost:2331"},
+                {"text": "monitor device STM32F411CE"},
+                {"text": "monitor reset"},
+                {"text": "file ${workspaceRoot}/build/SpiritLevel.elf"},
+                {"text": "load"},
+                {"text": "monitor go"},
+                {"text": "disconnect"},
+                {"text": "quit"}
+            ]
+        },
+        {
+            "name": "Reset target",
+            "type": "cppdbg",
+            "request": "launch",
+            "targetArchitecture": "arm",
+            "program": "./build/SpiritLevel.elf",
+            "miDebuggerServerAddress": "localhost:2331",
+            "cwd": "${workspaceRoot}",
+            "externalConsole": true,
+            "miDebuggerPath": "gdb-multiarch",
+            "linux": {
+                "MIMode": "gdb"
+            },
+            "customLaunchSetupCommands": [
+                {"text": "set confirm off"},
+                {"text": "target remote localhost:2331"},
+                {"text": "monitor device STM32F411CE"},
+                {"text": "monitor reset"},
+                {"text": "monitor go"},
+                {"text": "disconnect"},
+                {"text": "quit"}
+            ]
+        },
+        {
+            "name": "Erase target",
+            "type": "cppdbg",
+            "request": "launch",
+            "targetArchitecture": "arm",
+            "program": "./build/SpiritLevel.elf",
+            "miDebuggerServerAddress": "localhost:2331",
+            "cwd": "${workspaceRoot}",
+            "externalConsole": true,
+            "miDebuggerPath": "gdb-multiarch",
+            "linux": {
+                "MIMode": "gdb"
+            },
+            "customLaunchSetupCommands": [
+                {"text": "set confirm off"},
+                {"text": "target remote localhost:2331"},
+                {"text": "monitor device STM32F411CE"},
+                {"text": "monitor flash erase"},
+                {"text": "monitor go"},
+                {"text": "disconnect"},
+                {"text": "quit"}
+            ]
+        }
+    ]
+}

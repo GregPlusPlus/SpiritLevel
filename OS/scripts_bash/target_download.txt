@@ -1,0 +1,19 @@
+set confirm off
+
+target remote localhost:2331
+
+monitor device STM32F411CE
+
+monitor reset
+
+#file ./build/SpiritLevel.elf
+#load ./build/SpiritLevel.elf
+
+load
+
+monitor go
+
+disconnect
+
+quit
+​

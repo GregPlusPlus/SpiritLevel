@@ -1,0 +1,4 @@
+App name
+1.0
+Author
+A short description
