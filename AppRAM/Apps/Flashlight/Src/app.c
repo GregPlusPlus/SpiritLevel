@@ -24,7 +24,6 @@ void app_main(void) {
 
         if((ev & EV_PB_MID) != 0) {
             API_IO_SetFlashlight(0);
-            API_Quit();
 
             return;
         }
