@@ -135,10 +135,6 @@ int main(void)
 
   SWO_PrintString("Ready _______ OK\n");
 
-  /*char testBuff[100];
-  core_snprintf(testBuff, sizeof(testBuff), "Hello, %s %f !", "World", 12.5);
-  SWO_PrintString(testBuff);*/
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
