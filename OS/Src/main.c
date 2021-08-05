@@ -71,6 +71,7 @@ void showDevices(void);
 void loadScreen(char *msg);
 App_t *loadApps(size_t *count);
 void buildAppsMenu(Menu_t *menu, App_t *apps, size_t count);
+void refreshAppMenu(App_t **apps, Menu_t *mainMenu, size_t *appCount);
 
 /* USER CODE END PFP */
 
@@ -145,6 +146,9 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   Menu_t mainMenu;
+  mainMenu.entries = NULL;
+  mainMenu.count = 0;
+
   App_t *apps = NULL;
   size_t appCount = 0;
 
@@ -156,10 +160,7 @@ int main(void)
     while(!(API_getLastEvents() & EV_PB_RIGHT)) API_updateEvents();
   }
 
-  loadScreen("Loading\napps... ");
-  apps = loadApps(&appCount);
-  buildAppsMenu(&mainMenu, apps, appCount);
-  UI_Menu_Init(&mainMenu);
+  refreshAppMenu(&apps, &mainMenu, &appCount);
   
   while (1) {
     API_updateEvents();
@@ -175,6 +176,8 @@ int main(void)
     if(API_getLastEvents() & EV_PB_MID) {
       loadScreen("Starting\napp...");
       API_apps_runApp(&apps[mainMenu.current->index]);
+      
+      refreshAppMenu(&apps, &mainMenu, &appCount);
     }
 
     UI_Menu_Draw(&mainMenu);
@@ -284,7 +287,7 @@ App_t *loadApps(size_t *count) {
 void buildAppsMenu(Menu_t *menu, App_t *apps, size_t count) {
   menu->name = "Applications";
   menu->count = count;
-  menu->entries = (MenuEntry_t**)malloc(sizeof(MenuEntry_t*) * count);
+  menu->entries = (MenuEntry_t**)malloc(count * sizeof(MenuEntry_t*));
 
   if(!menu->entries) {
     API_DispERROR("ERROR :\nUnable to allocate\nmenu list.");
@@ -308,6 +311,34 @@ void buildAppsMenu(Menu_t *menu, App_t *apps, size_t count) {
     menu->entries[i]->name = apps[i].name;
     menu->entries[i]->index = i;
   }
+}
+
+void refreshAppMenu(App_t **apps, Menu_t *mainMenu, size_t *appCount) {
+    loadScreen("Loading\napps... ");
+
+    if(*apps) {
+      free(*apps);
+      *apps = NULL;
+    }
+
+    for(int i = 0; i < mainMenu->count; i ++) {
+      free(mainMenu->entries[i]);
+    }
+    
+    if(mainMenu->entries) {
+      free(mainMenu->entries);
+    }
+
+    mainMenu->entries = NULL;
+    mainMenu->current = NULL;
+    mainMenu->count = 0;
+
+    f_mount(&SDFatFS, "/", 1);
+
+    *apps = loadApps(appCount);
+    buildAppsMenu(mainMenu, *apps, *appCount);
+
+    UI_Menu_Init(mainMenu);
 }
 
 void splash(void) {
