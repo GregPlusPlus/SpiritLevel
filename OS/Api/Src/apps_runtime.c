@@ -24,7 +24,12 @@ void initPool(void) {
 bool loadFile(char *fn, uint32_t offset) {
     FIL fil;
 
-    if(f_open(&fil, fn, FA_READ) != FR_OK) {
+    int err = f_open(&fil, fn, FA_READ);
+    if(err != FR_OK) {
+        char buff[50];
+        snprintf(buff, sizeof(buff), "Unable to open app file !\nError code %hu", err);
+        API_DispERROR(buff);
+        
         return false;
     }
 
