@@ -9,7 +9,8 @@
         "stm32f4xx_hal.h": "c",
         "cstdlib": "c",
         "*.tcc": "c",
-        "api_hook.h": "c"
+        "api_hook.h": "c",
+        "guiassets.h": "c"
     },
     "stm32-for-vscode.openOCDPath": "openocd"
 }
