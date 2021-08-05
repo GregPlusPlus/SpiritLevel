@@ -184,7 +184,5 @@ uint32_t API_hook(const char *label) {
 }
 
 void bad_hook(const char *label) {
-    char msg[200];
-    snprintf(msg, sizeof(msg), "FATAL ERROR: Unable to resolve hook label.\n[Requested : %s]", label);
-    API_DispERROR(msg);
+    API_DispERROR("FATAL ERROR: Unable to resolve hook label.\n[Requested : %s]", label);
 }

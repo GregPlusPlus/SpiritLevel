@@ -10,7 +10,14 @@ void API_updateEvents(void) {
     event = Events_computeEvents();
 }
 
-void API_DispERROR(char *str) {
+void API_DispERROR(const char *format, ...) {
+    static char str[500];
+
+    va_list args;
+    va_start(args, format);
+    vsnprintf(str, sizeof(str), format, args);
+    va_end(args);
+
     SWO_PrintString(str);
 
     ssd1306_Fill(Black);

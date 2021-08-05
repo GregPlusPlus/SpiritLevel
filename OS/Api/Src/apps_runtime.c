@@ -26,9 +26,7 @@ bool loadFile(char *fn, uint32_t offset) {
 
     int err = f_open(&fil, fn, FA_READ);
     if(err != FR_OK) {
-        char buff[50];
-        snprintf(buff, sizeof(buff), "Unable to open app file !\nError code %hu", err);
-        API_DispERROR(buff);
+        API_DispERROR("Unable to open app file !\nError code %hu", err);
         
         return false;
     }

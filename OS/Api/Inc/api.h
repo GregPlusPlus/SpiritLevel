@@ -17,6 +17,7 @@
 
 #include "event.h"
 
+#include <stdarg.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <math.h>
@@ -26,7 +27,7 @@ void API_updateEvents(void);
 
 void API_Quit(void);
 
-void API_DispERROR(char *str);
+void API_DispERROR(const char *format, ...);
 
 void API_setPWM(TIM_HandleTypeDef timer, uint32_t channel, uint16_t period, uint16_t pulse);
 void API_I2C_Scan(I2C_HandleTypeDef *hi2c, bool addrList[128]);
