@@ -1,0 +1,118 @@
+/**
+  ******************************************************************************
+  * @file      startup_stm32f411xe.s
+  * @author    MCD Application Team
+  * @brief     STM32F411xExx Devices vector table for GCC based toolchains. 
+  *            This module performs:
+  *                - Set the initial SP
+  *                - Set the initial PC == Reset_Handler,
+  *                - Set the vector table entries with the exceptions ISR address
+  *                - Branches to main in the C library (which eventually
+  *                  calls main()).
+  *            After Reset the Cortex-M4 processor is in Thread mode,
+  *            priority is Privileged, and the Stack is set to Main.
+  ******************************************************************************
+  * @attention
+  *
+  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics.
+  * All rights reserved.</center></h2>
+  *
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
+  *
+  ******************************************************************************
+  */
+    
+  .syntax unified
+  .cpu cortex-m4
+  .fpu softvfp
+  .thumb
+
+//.global  g_pfnVectors
+.global  Default_Handler
+
+/* start address for the initialization values of the .data section. 
+defined in linker script */
+.word  _sidata
+/* start address for the .data section. defined in linker script */  
+.word  _sdata
+/* end address for the .data section. defined in linker script */
+.word  _edata
+/* start address for the .bss section. defined in linker script */
+.word  _sbss
+/* end address for the .bss section. defined in linker script */
+.word  _ebss
+/* stack used for SystemInit_ExtMemCtl; always internal RAM used */
+
+/**
+ * @brief  This is the code that gets called when the processor first
+ *          starts execution following a reset event. Only the absolutely
+ *          necessary set is performed, after which the application
+ *          supplied main() routine is called. 
+ * @param  None
+ * @retval : None
+*/
+
+  .section  .startup,"a",%progbits
+  .weak  Reset_Handler
+  .type  Reset_Handler, %function
+
+Reset_Handler:  
+/* Saving regs provided by monitor */
+  ldr   sp, =_estack    /* set stack pointer */
+  push  {r0}            // SP
+  push  {r1}            // LR
+  push  {r2}            // HOOK ADDR
+
+/* CRT0 INIT */
+
+/* Copy the data segment initializers from flash to SRAM */  
+  movs  r1, #0
+  b  LoopCopyDataInit
+
+CopyDataInit:
+  ldr   r3, =_sidata
+  ldr   r3, [r3, r1]
+  str   r3, [r0, r1]
+  adds  r1, r1, #4
+    
+LoopCopyDataInit:
+  ldr   r0, =_sdata
+  ldr   r3, =_edata
+  adds  r2, r0, r1
+  cmp   r2, r3
+  bcc   CopyDataInit
+  ldr   r2, =_sbss
+  b     LoopFillZerobss
+/* Zero fill the bss segment. */  
+FillZerobss:
+  movs  r3, #0
+  str   r3, [r2], #4
+    
+LoopFillZerobss:
+  ldr   r3, = _ebss
+  cmp   r2, r3
+  bcc   FillZerobss
+
+
+/* Call static constructors */
+  bl    __libc_init_array
+
+/* ********* */
+
+/* Prepare app call */
+  pop   {r2}
+  ldr   r1, =API_hook_addr
+  str   r2, [r1]            // Pass API hook
+
+/* Call the application's entry point.*/
+  bl    app_entry
+  
+/* Return to monitor */
+  pop   {lr}
+  pop   {r0}
+  mov   sp, r0
+  bx    lr    
+.size  Reset_Handler, .-Reset_Handler
