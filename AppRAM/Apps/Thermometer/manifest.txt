@@ -1,0 +1,4 @@
+Thermometer
+1.0
+Gregoire
+A simple thermometer
