@@ -1,7 +1,7 @@
 #include "menu.h"
 
-void UI_Priv_Menu_DrawDots(Menu_t *menu);
-void UI_Priv_Menu_ScrollText(char *str);
+static void UI_Priv_Menu_DrawDots(Menu_t *menu);
+static void UI_Priv_Menu_ScrollText(char *str);
 
 void UI_Menu_Init(Menu_t *menu) {
     if(menu->count > 0) {
