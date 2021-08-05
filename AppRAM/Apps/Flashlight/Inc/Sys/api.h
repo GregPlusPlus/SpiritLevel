@@ -19,7 +19,7 @@ extern Event_t (*API_getLastEvents)(void);
 extern void (*API_updateEvents)(void);
 extern void (*API_Quit)(void);
 
-extern void (*API_DispERROR)(char *str);
+extern void (*API_DispERROR)(const char *format, ...);
 
 extern void (*API_IO_SetFlashlight)(uint8_t value);
 extern void (*API_IO_SetLED)(bool state);

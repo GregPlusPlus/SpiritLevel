@@ -16,7 +16,7 @@ Event_t     (*API_getLastEvents)(void);
 void        (*API_updateEvents)(void);
 void        (*API_Quit)(void);
 
-void        (*API_DispERROR)(char *str);
+void        (*API_DispERROR)(const char *format, ...);
 
 void        (*API_IO_SetFlashlight)(uint8_t value);
 void        (*API_IO_SetLED)(bool state);
