@@ -37,9 +37,9 @@ BUILD_DIR = build
 # C sources
 C_SOURCES =  \
 Src/app.c \
-Src/Sys/entry.c \
-Src/Sys/hook.c \
-Src/Sys/swo.c
+../../SysSrc/Src/entry.c \
+../../SysSrc/Src/hook.c \
+../../SysSrc/Src/swo.c
 
 # ASM sources
 ASM_SOURCES =  \
@@ -96,11 +96,11 @@ AS_INCLUDES =
 
 # C includes
 C_INCLUDES =  \
+-I../../SysSrc/Inc \
+-I../../SysSrc/Inc/FatFs \
+-I../../SysSrc/Inc/UI \
+-I../../SysSrc/Inc/Hook \
 -IInc \
--IInc/Sys \
--IInc/Sys/FatFs \
--IInc/Sys/UI \
--IInc/Sys/Hook
 
 
 # compile gcc flags
