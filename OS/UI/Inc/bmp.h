@@ -39,6 +39,12 @@ typedef enum {
 	BMP_Err_Data_Read		= -5
 } BMP_Err_t;
 
+typedef enum {
+	BMP_Alpha_Color_Black = 0,
+	BMP_Alpha_Color_White = 1,
+	BMP_Alpha_Color_None = 2
+} BMP_Alpha_Color_t;
+
 void BMP_setFile(FIL *_fp);
 
 void BMP_zeroBMP(BMP_t *bmp);
@@ -46,6 +52,7 @@ BMP_Err_t BMP_parseFile(BMP_t *bmp);
 BMP_Err_t BMP_check(BMP_t *bmp);
 BMP_Err_t BMP_readData(BMP_t *bmp);
 BMP_Err_t BMP_blit(BMP_t *bmp, uint32_t _x, uint32_t _y);
+void BMP_setAlphaColor(BMP_Alpha_Color_t color);
 void BMP_release(BMP_t *bmp);
 
 #endif // BMP_H

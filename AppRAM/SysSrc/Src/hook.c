@@ -163,6 +163,7 @@ BMP_Err_t (*BMP_parseFile)(BMP_t *bmp);
 BMP_Err_t (*BMP_check)(BMP_t *bmp);
 BMP_Err_t (*BMP_readData)(BMP_t *bmp);
 BMP_Err_t (*BMP_blit)(BMP_t *bmp, uint32_t _x, uint32_t _y);
+void (*BMP_setAlphaColor)(BMP_Alpha_Color_t color);
 void (*BMP_release)(BMP_t *bmp);
 
 void (*UI_Menu_Init)(Menu_t *menu);
@@ -339,6 +340,7 @@ void HOOK_init(void) {
     _HOOK(BMP_check)
     _HOOK(BMP_readData)
     _HOOK(BMP_blit)
+    _HOOK(BMP_setAlphaColor)
     _HOOK(BMP_release)
 
     _HOOK(UI_Menu_Init)

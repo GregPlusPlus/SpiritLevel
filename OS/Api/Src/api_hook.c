@@ -157,6 +157,7 @@ uint32_t API_hook(const char *label) {
     HOOK_CASE(BMP_check)
     HOOK_CASE(BMP_readData)
     HOOK_CASE(BMP_blit)
+    HOOK_CASE(BMP_setAlphaColor)
     HOOK_CASE(BMP_release)
 
     HOOK_CASE(UI_Menu_Init)

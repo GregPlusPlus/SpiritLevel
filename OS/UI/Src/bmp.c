@@ -10,11 +10,12 @@ static uint32_t read32(void);
 static void buildPalette(BMP_t *bmp);
 static uint8_t getBit(uint8_t i, uint8_t N);
 
+static BMP_Alpha_Color_t alphaColor = BMP_Alpha_Color_None;
+
 static FIL *fp = NULL;
 void BMP_setFile(FIL *_fp) {
     fp = _fp;
 }
-
 
 size_t readBuff(uint8_t *v, size_t s) {
     size_t br;
@@ -151,13 +152,20 @@ BMP_Err_t BMP_blit(BMP_t *bmp, uint32_t _x, uint32_t _y) {
 
             uint8_t byte = bmp->data[i];
 
-            putpixel(_x + x, _y + y, bmp->BWPalette[getBit(bitIndex, byte)]);
+            bool color = bmp->BWPalette[getBit(bitIndex, byte)];
+
+            if(alphaColor == BMP_Alpha_Color_None || (color != (bool)alphaColor)) {
+                putpixel(_x + x, _y + y, color);
+            }
         }
     }
 
     return 0;
 }
 
+void BMP_setAlphaColor(BMP_Alpha_Color_t color) {
+    alphaColor = color;
+}
 
 uint8_t getBit(uint8_t i, uint8_t N) {
     return (N >> i) & 0x01;
