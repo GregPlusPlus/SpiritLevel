@@ -1,50 +1,4 @@
-#include <stdlib.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include <stdio.h>
-
-#include "api.h"
-#include "UI.h"
-
-#define TUBE_W 12
-#define OPENING_H 32
-#define SPACING 80
-#define NTUBES 3
-#define FALL_ACC .023f
-#define RISE_ACC 1.55f
-#define HITBOX_MARGIN 2
-
-typedef struct {
-    uint8_t openingTop;
-    int32_t x;
-} Tube_t;
-
-typedef struct {
-    float v;
-    float x;
-    float y;
-    uint8_t w;
-    uint8_t h;
-} Chick_t;
-
-typedef struct {
-    int32_t x;
-    int32_t y;
-} Point_t;
-
-BMP_Err_t loadSprite(const char *fn, BMP_t *bmp);
-void initTubes(Tube_t *tubes, size_t nTubes);
-uint8_t generateOpening(void);
-void dispPoints(uint32_t x);
-void dispGameOver(uint32_t x);
-void update(Event_t ev, Tube_t *tubes, size_t nTubes, Chick_t *chick, int32_t xBG);
-void drawTubes(Tube_t *tubes, size_t nTubes);
-void drawTube(Tube_t tube);
-void updateTubes(Tube_t *tubes, size_t nTubes);
-void rollTubes(Tube_t *tubes, size_t nTubes);
-void fly(Event_t ev, Chick_t *chick);
-bool hasCrashed(Tube_t *tubes, size_t nTubes, Chick_t *chick);
-bool rectOverlap(Point_t l1, Point_t r1, Point_t l2, Point_t r2);
+#include "app.h"
 
 BMP_t spriteTube;
 BMP_t spriteTubeTop;
@@ -65,35 +19,7 @@ void app_main(void) {
     API_RNG_Init();
     f_mount(SDFatFS, "/", 1);
 
-    if(loadSprite("apps/FloppyChick/rc/tube.bmp", &spriteTube)) {
-        return;
-    }
-
-    if(loadSprite("apps/FloppyChick/rc/tubetop.bmp", &spriteTubeTop)) {
-        return;
-    }
-
-    if(loadSprite("apps/FloppyChick/rc/chick.bmp", &spriteChick)) {
-        return;
-    }
-
-    if(loadSprite("apps/FloppyChick/rc/chick_alpha.bmp", &spriteChickAlpha)) {
-        return;
-    }
-
-    if(loadSprite("apps/FloppyChick/rc/chick_up.bmp", &spriteChickUp)) {
-        return;
-    }
-
-    if(loadSprite("apps/FloppyChick/rc/chick_up_alpha.bmp", &spriteChickUpAlpha)) {
-        return;
-    }
-
-    if(loadSprite("apps/FloppyChick/rc/gameover.bmp", &spriteGameOver)) {
-        return;
-    }
-
-    if(loadSprite("apps/FloppyChick/rc/bg.bmp", &spriteBG)) {
+    if(!loadSprites()) {
         return;
     }
 
@@ -167,6 +93,42 @@ void app_main(void) {
             }
         }
     }
+}
+
+bool loadSprites(void) {
+    if(loadSprite("apps/FloppyChick/rc/tube.bmp", &spriteTube)) {
+        return false;
+    }
+
+    if(loadSprite("apps/FloppyChick/rc/tubetop.bmp", &spriteTubeTop)) {
+        return false;
+    }
+
+    if(loadSprite("apps/FloppyChick/rc/chick.bmp", &spriteChick)) {
+        return false;
+    }
+
+    if(loadSprite("apps/FloppyChick/rc/chick_alpha.bmp", &spriteChickAlpha)) {
+        return false;
+    }
+
+    if(loadSprite("apps/FloppyChick/rc/chick_up.bmp", &spriteChickUp)) {
+        return false;
+    }
+
+    if(loadSprite("apps/FloppyChick/rc/chick_up_alpha.bmp", &spriteChickUpAlpha)) {
+        return false;
+    }
+
+    if(loadSprite("apps/FloppyChick/rc/gameover.bmp", &spriteGameOver)) {
+        return false;
+    }
+
+    if(loadSprite("apps/FloppyChick/rc/bg.bmp", &spriteBG)) {
+        return false;
+    }
+
+    return true;
 }
 
 BMP_Err_t loadSprite(const char *fn, BMP_t *bmp) {
