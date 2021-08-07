@@ -7,6 +7,8 @@ BMP_t spriteChickAlpha;
 BMP_t spriteChickUp;
 BMP_t spriteChickUpAlpha;
 BMP_t spriteGameOver;
+BMP_t spriteGameOverAnimation;
+BMP_t spriteGameOverAnimationOutline;
 BMP_t spriteBG;
 
 void app_main(void) {
@@ -51,7 +53,10 @@ void app_main(void) {
             if((sysTick() - t) >= 1) {
                 t = sysTick();
 
-                update(ev, tubes, NTUBES, &chick, xBG);
+                updateTubes(tubes, NTUBES);
+                fly(ev, &chick);
+
+                update(tubes, NTUBES, &chick, xBG);
 
                 if((chick.y + chick.h) >= 64 || chick.y <= 0) {
                     break;
@@ -77,7 +82,7 @@ void app_main(void) {
             }
         }
 
-        dispGameOver(x);
+        dispGameOver(tubes, NTUBES, &chick, xBG, x);
 
         while(1) {
             API_updateEvents();
@@ -121,6 +126,14 @@ bool loadSprites(void) {
     }
 
     if(loadSprite("apps/FloppyChick/rc/gameover.bmp", &spriteGameOver)) {
+        return false;
+    }
+
+    if(loadSprite("apps/FloppyChick/rc/gameover_animation.bmp", &spriteGameOverAnimation)) {
+        return false;
+    }
+
+    if(loadSprite("apps/FloppyChick/rc/gameover_animation_outline.bmp", &spriteGameOverAnimationOutline)) {
         return false;
     }
 
@@ -180,15 +193,23 @@ void dispPoints(uint32_t x) {
     ssd1306_WriteString(buff, *Font_7x10, White);
 }
 
-void dispGameOver(uint32_t x) {
+void dispGameOver(Tube_t *tubes, size_t nTubes, Chick_t *chick, int32_t xBG,uint32_t x) {
     char buff[50];
 
     snprintf(buff, sizeof(buff), "%lu points", x);
 
     for(uint8_t i = SSD1306_HEIGHT; i > 0; i --) {
-        BMP_blit(&spriteGameOver, 0, i - 1);
+        update(tubes, nTubes, chick, xBG);
+        BMP_setAlphaColor(BMP_Alpha_Color_White);
+        BMP_blit(&spriteGameOverAnimation, 0, i - 1);
+        BMP_setAlphaColor(BMP_Alpha_Color_Black);
+        BMP_blit(&spriteGameOverAnimationOutline, 0, i - 1);
         ssd1306_UpdateScreen();
     }
+
+    BMP_setAlphaColor(BMP_Alpha_Color_None);
+    BMP_blit(&spriteGameOver, 0, 0);
+    ssd1306_UpdateScreen();
 
     int tw = ssd1306_GetTextWidth(*Font_7x10, buff);
 
@@ -198,10 +219,7 @@ void dispGameOver(uint32_t x) {
     ssd1306_UpdateScreen();
 }
 
-void update(Event_t ev, Tube_t *tubes, size_t nTubes, Chick_t *chick, int32_t xBG) {
-    updateTubes(tubes, nTubes);
-    fly(ev, chick);
-    
+void update(Tube_t *tubes, size_t nTubes, Chick_t *chick, int32_t xBG) {
     ssd1306_Fill(Black);
 
     uint8_t yBG = (SSD1306_HEIGHT - spriteBG.h);
@@ -212,7 +230,6 @@ void update(Event_t ev, Tube_t *tubes, size_t nTubes, Chick_t *chick, int32_t xB
     BMP_setAlphaColor(BMP_Alpha_Color_None);
 
     drawTubes(tubes, nTubes);
-
     
     if(chick->v >= 0) {
         BMP_setAlphaColor(BMP_Alpha_Color_White);
