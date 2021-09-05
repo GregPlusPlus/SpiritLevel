@@ -3,25 +3,7 @@
         {
             "name": "STM32",
             "includePath": [
-                "Api/Inc",
-                "App/Flashlight/Inc",
-                "Apps/Accelerometer/Inc",
-                "Apps/Compass/Inc",
-                "Apps/Flashlight/Inc",
-                "Apps/Inc",
-                "Apps/MeasTape/Inc",
-                "Apps/Morse/Inc",
-                "Apps/SpiritLevel/Inc",
-                "Apps/Thermometer/Inc",
-                "Drivers/CMSIS/Device/ST/STM32F4xx/Include",
-                "Drivers/CMSIS/Include",
-                "Drivers/STM32F4xx_HAL_Driver/Inc",
-                "Drivers/STM32F4xx_HAL_Driver/Inc/Legacy",
-                "Inc",
-                "Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc",
-                "Middlewares/ST/STM32_USB_Device_Library/Core/Inc",
-                "SSD1306/Inc",
-                "UI/Inc"
+                "${workspaceFolder}/**"
             ],
             "defines": [
                 "STM32F411xE",

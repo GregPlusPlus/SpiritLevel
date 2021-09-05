@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "main.h": "c",
+        "stdbool.h": "c",
+        "fatfs.h": "c",
+        "ssd1306.h": "c",
+        "usb_device.h": "c",
+        "stm32f4xx_hal_gpio.h": "c"
+    }
+}
