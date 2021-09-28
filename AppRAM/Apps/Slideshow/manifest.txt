@@ -1,0 +1,4 @@
+Slideshow
+1.0
+Gregoire
+A simple slideshow app
