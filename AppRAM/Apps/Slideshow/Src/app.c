@@ -6,7 +6,7 @@
 #include "api.h"
 #include "ui.h"
 
-#define SLDSHW_PATH "apps/slideshow"
+#define SLDSHW_PATH "pictures"
 
 size_t findex = 0;
 size_t cnt = 0;
