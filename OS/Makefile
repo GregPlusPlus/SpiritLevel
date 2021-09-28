@@ -37,10 +37,10 @@ BUILD_DIR = build
 ######################################
 # C sources
 C_SOURCES =  \
-Src/main.c \
-Src/utils.c \
-Src/appmenugeneration.c \
-Src/guiassets.c \
+Core/main.c \
+Core/utils.c \
+Core/appmenugeneration.c \
+Core/guiassets.c \
 Src/gpio.c \
 Src/i2c.c \
 Src/tim.c \
