@@ -8,18 +8,17 @@
 
 #define SLDSHW_PATH "pictures"
 
-size_t findex = 0;
-size_t cnt = 0;
-
 size_t countFiles(void);
 FIL goToFile(size_t index);
 void showImg(FIL fil);
 bool isBMP(const char *str);
 
-void Slideshow_Init(void);
+void Slideshow_Init(size_t findex);
 
 void app_main(void) {
-    Slideshow_Init();
+    size_t findex = 0;
+
+    Slideshow_Init(findex);
 
     while(1) {
         API_updateEvents();
@@ -71,9 +70,7 @@ void app_main(void) {
     
 }
 
-void Slideshow_Init(void) {
-    findex = 0;
-    
+void Slideshow_Init(size_t findex) {
     ssd1306_Fill(Black);
     ssd1306_SetCursor(0, 0);
     ssd1306_UpdateScreen();
@@ -88,6 +85,8 @@ void Slideshow_Init(void) {
         ssd1306_WriteString("Empty folder", *Font_7x10, White);
         ssd1306_UpdateScreen();
     }
+
+    BMP_setAlphaColor(BMP_Alpha_Color_Black);
 }
 
 
@@ -116,7 +115,7 @@ FIL goToFile(size_t index) {
 
         if ((fno.fattrib & AM_DIR) == 0) {
             if(isBMP(fno.fname)) {
-                if(i == findex) {
+                if(i == index) {
                     break;
                 }
 
@@ -168,8 +167,6 @@ size_t countFiles(void) {
         }
     }
 
-    cnt = i;
-
     return i;
 }
 
@@ -205,6 +202,8 @@ void showImg(FIL fil) {
         ssd1306_UpdateScreen();
         return;
     }
+
+    ssd1306_Fill(Black);
     
     BMP_blit(&bmp,
                     (SSD1306_WIDTH / 2) - (bmp.w / 2),
