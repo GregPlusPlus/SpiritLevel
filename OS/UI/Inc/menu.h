@@ -4,15 +4,15 @@
 #include "api.h"
 
 typedef struct {
-  char *name;
-  size_t index;
+    char *name;
+    size_t index;
 } MenuEntry_t;
 
 typedef struct {
-  char *name;
-  size_t count;
-  MenuEntry_t **entries;
-  MenuEntry_t *current;
+    char *name;
+    size_t count;
+    MenuEntry_t **entries;
+    MenuEntry_t *current;
 } Menu_t;
 
 void UI_Menu_Init(Menu_t *menu);
