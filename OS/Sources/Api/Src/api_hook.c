@@ -170,6 +170,11 @@ uint32_t API_hook(const char *label) {
     HOOK_CASE(UI_Progressbar_Draw)
 
     HOOK_CASE(UTILS_getStorageUsage)
+    HOOK_CASE(UTILS_checkExtension)
+    HOOK_CASE(UTILS_readFile8)
+    HOOK_CASE(UTILS_readFile16)
+    HOOK_CASE(UTILS_readFile32)
+    HOOK_CASE(UTILS_drawBMP)
 
     HOOK_CASE(API_updateEvents)
 

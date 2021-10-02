@@ -176,6 +176,11 @@ void (*UI_Progressbar_Setvalue)(Progressbar_t *pb, uint32_t value);
 void (*UI_Progressbar_Draw)(Progressbar_t *pb);
 
 void (*UTILS_getStorageUsage)(uint32_t *free, uint32_t *total);
+bool (*UTILS_checkExtension)(char *fn, char *ext);
+uint8_t (*UTILS_readFile8)(FIL *f);
+uint16_t (*UTILS_readFile16)(FIL *f);
+uint32_t (*UTILS_readFile32)(FIL *f);
+BMP_Err_t (*UTILS_drawBMP)(const char *fn, uint8_t x, uint8_t y);
 
 void (*Delay)(uint32_t ms);
 
@@ -353,6 +358,11 @@ void HOOK_init(void) {
     _HOOK(UI_Progressbar_Draw)
 
     _HOOK(UTILS_getStorageUsage)
+    _HOOK(UTILS_checkExtension)
+    _HOOK(UTILS_readFile8)
+    _HOOK(UTILS_readFile16)
+    _HOOK(UTILS_readFile32)
+    _HOOK(UTILS_drawBMP)
 
     _HOOK(Delay)
 
