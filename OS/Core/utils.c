@@ -49,3 +49,37 @@ uint32_t UTILS_readFile32(FIL *f) {
 
     return val;
 }
+
+
+BMP_Err_t UTILS_drawBMP(const char *fn, uint8_t x, uint8_t y) {
+    FIL fil;
+    BMP_t bmp;
+
+    BMP_zeroBMP(&bmp);
+
+    if(f_open(&fil, fn, FA_READ) != FR_OK) {
+        return BMP_Err_IO;
+    }
+
+    BMP_setFile(&fil);
+
+    BMP_Err_t err;
+    err = BMP_parseFile(&bmp);
+
+    if(err) {
+        return err;
+    }
+    
+    err = BMP_readData(&bmp);
+
+    if(err) {
+        return err;
+    }
+
+    BMP_blit(&bmp, x, y);
+    BMP_release(&bmp);
+    f_close(&fil);
+
+    return BMP_Err_OK;
+}
+
