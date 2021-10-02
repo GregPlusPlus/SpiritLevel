@@ -35,7 +35,8 @@ typedef enum {
 	BMP_Err_Not_BW			= -2,
 	BMP_Err_Invalid_Palette	= -3,
 	BMP_Err_Empty_Data		= -4,
-	BMP_Err_Data_Read		= -5
+	BMP_Err_Data_Read		= -5,
+	BMP_Err_IO				= -6
 } BMP_Err_t;
 
 typedef enum {
