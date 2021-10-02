@@ -14,8 +14,9 @@ void dispAbout(void);
 void dispTextFile(void);
 void dispQRCode(void);
 void manageStorage(void);
+void setBrightness(void);
 
-#define NUMBER_OF_ENTRIES   5
+#define NUMBER_OF_ENTRIES   6
 #define PRJ_NAME            "SpiritLevel"
 #define PRJ_VERSION         "V3.0"
 
@@ -26,6 +27,7 @@ MenuEntry_t entry_2;
 MenuEntry_t entry_3;
 MenuEntry_t entry_4;
 MenuEntry_t entry_5;
+MenuEntry_t entry_6;
 
 uint8_t page;
 bool showPage;
@@ -75,8 +77,11 @@ void app_main(void) {
                 updatePage = false;
                     break;
                 case 4:
-                return;
+                setBrightness();
                 updatePage = false;
+                    break;
+                case 5:
+                return;
                     break;
                 default:
                     break;
@@ -119,6 +124,7 @@ void initMenu(void) {
     menu.entries[2] = &entry_3;
     menu.entries[3] = &entry_4;
     menu.entries[4] = &entry_5;
+    menu.entries[5] = &entry_6;
 
     entry_1.name = "Information";
     entry_1.index = 0;
@@ -132,8 +138,11 @@ void initMenu(void) {
     entry_4.name = "Storage management";
     entry_4.index = 3;
 
-    entry_5.name = "Quit";
+    entry_5.name = "Set brightness";
     entry_5.index = 4;
+
+    entry_6.name = "Quit";
+    entry_6.index = 5;
 
     UI_Menu_Init(&menu);
 }
@@ -251,9 +260,51 @@ void manageStorage(void) {
     ssd1306_SetCursor(5, 5);
     ssd1306_WriteString(buff, *Font_6x8, White);
 
-    ssd1306_UpdateScreen();
-
     UI_Progressbar_Setvalue(&pb, (total - free));
 
     UI_Progressbar_Draw(&pb);
+
+    ssd1306_UpdateScreen();
+}
+
+void setBrightness(void) {
+    Progressbar_t pb;
+
+    uint8_t b = 0x7F;
+
+    ssd1306_Fill(Black);
+
+    ssd1306_WriteCommand(0x81); //--set contrast control register - CHECK
+    ssd1306_WriteCommand(b);
+
+    UI_Progressbar_Init(&pb, 14, 30, 101, 10, 255);
+
+    UTILS_drawBMP("apps/About/brightness.bmp", 0, 0);
+
+    while(1) {
+        API_updateEvents();
+
+        if(API_getLastEvents() & EV_PB_LEFT) {
+            b -= 0x10;
+
+            ssd1306_WriteCommand(0x81); //--set contrast control register - CHECK
+            ssd1306_WriteCommand(b);
+        }
+
+        if(API_getLastEvents() & EV_PB_RIGHT) {
+            b += 0x10;
+
+            ssd1306_WriteCommand(0x81); //--set contrast control register - CHECK
+            ssd1306_WriteCommand(b);
+        }
+
+        if(API_getLastEvents() & EV_PB_MID) {
+            return;
+        }
+        
+        UI_Progressbar_Setvalue(&pb, b);
+        UI_Progressbar_Draw(&pb);
+
+        ssd1306_UpdateScreen();
+    }
 }
