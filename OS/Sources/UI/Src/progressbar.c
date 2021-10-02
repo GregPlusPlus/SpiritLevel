@@ -37,8 +37,6 @@ void UI_Progressbar_Draw(Progressbar_t *pb) {
     for(uint8_t i = 2; i < (pb->h - 1); i ++) {
         ssd1306_Line(pb->x + 2, pb->y + i, pb->x + pw, pb->y + i, White);
     }
-
-    ssd1306_UpdateScreen();
 }
 
 static uint8_t UI_Priv_Progressbar_GetProgressWidth(uint8_t w, uint32_t max, uint32_t value) {
