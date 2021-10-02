@@ -1,8 +1,6 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include "fatfs.h"
-
 extern void UTILS_getStorageUsage(uint32_t *free, uint32_t *total);
 extern bool UTILS_checkExtension(char *fn, char *ext);
 extern uint8_t UTILS_readFile8(FIL *f);
