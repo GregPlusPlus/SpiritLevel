@@ -37,83 +37,83 @@ BUILD_DIR = build
 ######################################
 # C sources
 C_SOURCES =  \
-Core/Src/main.c \
-Core/Src/utils.c \
-Core/Src/appmenugeneration.c \
-Core/Src/guiassets.c \
-Core/Src/swo.c \
-Core/Src/pb.c \
-Src/gpio.c \
-Src/i2c.c \
-Src/tim.c \
-Src/usart.c \
-Src/usb_device.c \
-Src/usbd_conf.c \
-Src/usbd_desc.c \
-Src/stm32f4xx_it.c \
-Src/stm32f4xx_hal_msp.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c \
-Src/system_stm32f4xx.c \
-Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c \
-Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c \
-Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c \
-Api/Src/api.c \
-Api/Src/api_hook.c \
-Api/Src/api_bmx.c \
-Api/Src/api_sht.c \
-Api/Src/api_lps.c \
-Api/Src/apps.c \
-Api/Src/apps_runtime.c \
-Api/Src/event.c \
-UI/Src/menu.c \
-UI/Src/progressbar.c \
-UI/Src/bmp.c \
-SSD1306/Src/ssd1306.c \
-SSD1306/Src/ssd1306_fonts.c \
-Src/adc.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c \
-Src/sdio.c \
-Src/usbd_storage_if.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_sdmmc.c \
-Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc.c \
-Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc_bot.c \
-Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc_data.c \
-Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc_scsi.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sd.c \
-Src/bsp_driver_sd.c \
-Src/sd_diskio.c \
-Src/fatfs.c \
-Core/Src/console.c \
-Middlewares/Third_Party/FatFs/src/diskio.c \
-Middlewares/Third_Party/FatFs/src/ff.c \
-Middlewares/Third_Party/FatFs/src/ff_gen_drv.c \
-Middlewares/Third_Party/FatFs/src/option/syscall.c \
-Middlewares/Third_Party/FatFs/src/option/ccsbcs.c
+Sources/Core/Src/main.c \
+Sources/Core/Src/utils.c \
+Sources/Core/Src/appmenugeneration.c \
+Sources/Core/Src/guiassets.c \
+Sources/Core/Src/swo.c \
+Sources/Core/Src/pb.c \
+Sources/Src/gpio.c \
+Sources/Src/i2c.c \
+Sources/Src/tim.c \
+Sources/Src/usart.c \
+Sources/Src/usb_device.c \
+Sources/Src/usbd_conf.c \
+Sources/Src/usbd_desc.c \
+Sources/Src/stm32f4xx_it.c \
+Sources/Src/stm32f4xx_hal_msp.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c \
+Sources/Src/system_stm32f4xx.c \
+Sources/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c \
+Sources/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c \
+Sources/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c \
+Sources/Api/Src/api.c \
+Sources/Api/Src/api_hook.c \
+Sources/Api/Src/api_bmx.c \
+Sources/Api/Src/api_sht.c \
+Sources/Api/Src/api_lps.c \
+Sources/Api/Src/apps.c \
+Sources/Api/Src/apps_runtime.c \
+Sources/Api/Src/event.c \
+Sources/UI/Src/menu.c \
+Sources/UI/Src/progressbar.c \
+Sources/UI/Src/bmp.c \
+Sources/SSD1306/Src/ssd1306.c \
+Sources/SSD1306/Src/ssd1306_fonts.c \
+Sources/Src/adc.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c \
+Sources/Src/sdio.c \
+Sources/Src/usbd_storage_if.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_sdmmc.c \
+Sources/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc.c \
+Sources/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc_bot.c \
+Sources/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc_data.c \
+Sources/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc_scsi.c \
+Sources/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sd.c \
+Sources/Src/bsp_driver_sd.c \
+Sources/Src/sd_diskio.c \
+Sources/Src/fatfs.c \
+Sources/Core/Src/console.c \
+Sources/Middlewares/Third_Party/FatFs/src/diskio.c \
+Sources/Middlewares/Third_Party/FatFs/src/ff.c \
+Sources/Middlewares/Third_Party/FatFs/src/ff_gen_drv.c \
+Sources/Middlewares/Third_Party/FatFs/src/option/syscall.c \
+Sources/Middlewares/Third_Party/FatFs/src/option/ccsbcs.c
 
 # ASM sources
 ASM_SOURCES =  \
-startup_stm32f411xe.s
+Sources/startup_stm32f411xe.s
 
 
 #######################################
@@ -167,19 +167,19 @@ AS_INCLUDES =
 
 # C includes
 C_INCLUDES =  \
--IInc \
--IDrivers/STM32F4xx_HAL_Driver/Inc \
--IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
--IMiddlewares/ST/STM32_USB_Device_Library/Core/Inc \
--IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
--IDrivers/CMSIS/Include \
--IDrivers/CMSIS/Include \
--ISSD1306/Inc \
--IApi/Inc \
--IUI/Inc \
--ICore/Inc \
--IMiddlewares/ST/STM32_USB_Device_Library/Class/MSC/Inc \
--IMiddlewares/Third_Party/FatFs/src
+-ISources/Inc \
+-ISources/Drivers/STM32F4xx_HAL_Driver/Inc \
+-ISources/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy \
+-ISources/Middlewares/ST/STM32_USB_Device_Library/Core/Inc \
+-ISources/Drivers/CMSIS/Device/ST/STM32F4xx/Include \
+-ISources/Drivers/CMSIS/Include \
+-ISources/Drivers/CMSIS/Include \
+-ISources/SSD1306/Inc \
+-ISources/Api/Inc \
+-ISources/UI/Inc \
+-ISources/Core/Inc \
+-ISources/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Inc \
+-ISources/Middlewares/Third_Party/FatFs/src
 
 
 # compile gcc flags
@@ -200,7 +200,7 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 # LDFLAGS
 #######################################
 # link script
-LDSCRIPT = STM32F411CEUx_FLASH.ld
+LDSCRIPT = Sources/STM32F411CEUx_FLASH.ld
 
 # libraries
 LIBS = -lc -lm -lnosys 
