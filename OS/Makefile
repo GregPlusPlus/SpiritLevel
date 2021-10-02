@@ -37,10 +37,12 @@ BUILD_DIR = build
 ######################################
 # C sources
 C_SOURCES =  \
-Core/main.c \
-Core/utils.c \
-Core/appmenugeneration.c \
-Core/guiassets.c \
+Core/Src/main.c \
+Core/Src/utils.c \
+Core/Src/appmenugeneration.c \
+Core/Src/guiassets.c \
+Core/Src/swo.c \
+Core/Src/pb.c \
 Src/gpio.c \
 Src/i2c.c \
 Src/tim.c \
@@ -88,8 +90,6 @@ UI/Src/progressbar.c \
 UI/Src/bmp.c \
 SSD1306/Src/ssd1306.c \
 SSD1306/Src/ssd1306_fonts.c \
-Src/pb.c \
-Src/swo.c \
 Src/adc.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c \
@@ -104,7 +104,7 @@ Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sd.c \
 Src/bsp_driver_sd.c \
 Src/sd_diskio.c \
 Src/fatfs.c \
-Src/console.c \
+Core/Src/console.c \
 Middlewares/Third_Party/FatFs/src/diskio.c \
 Middlewares/Third_Party/FatFs/src/ff.c \
 Middlewares/Third_Party/FatFs/src/ff_gen_drv.c \
@@ -177,6 +177,7 @@ C_INCLUDES =  \
 -ISSD1306/Inc \
 -IApi/Inc \
 -IUI/Inc \
+-ICore/Inc \
 -IMiddlewares/ST/STM32_USB_Device_Library/Class/MSC/Inc \
 -IMiddlewares/Third_Party/FatFs/src
 
