@@ -45,7 +45,7 @@ bool folderContainsApp(char *fn) {
     FILINFO fno;
     fno.fname[0] = 0x00;
 
-    char path[50];
+    char path[512];
     snprintf(path, sizeof(path), "%s/%s", APPS_PATH, fn);
 
     if(f_opendir(&dir, path) != FR_OK) {
@@ -113,7 +113,7 @@ char *getFileName(char *fn) {
     FILINFO fno;
     fno.fname[0] = 0x00;
 
-    char path[50];
+    char path[512];
     snprintf(path, sizeof(path), "%s/%s", "apps", fn);
 
     if(f_opendir(&dir, path) != FR_OK) {
@@ -176,7 +176,7 @@ void parseApp(App_t *app) {
 
 void parseHeader(FIL *f, App_t *app) {
     char *headerStr = malloc(app->headerLength);
-    
+
     for(size_t i = 0; i < app->headerLength; i ++) {
         headerStr[i] = UTILS_readFile8(f);
     }
