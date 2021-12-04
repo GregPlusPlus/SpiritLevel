@@ -88,6 +88,7 @@ Sources/Api/Src/event.c \
 Sources/UI/Src/menu.c \
 Sources/UI/Src/progressbar.c \
 Sources/UI/Src/bmp.c \
+Sources/UI/Src/sprite.c \
 Sources/SSD1306/Src/ssd1306.c \
 Sources/SSD1306/Src/ssd1306_fonts.c \
 Sources/Src/adc.c \

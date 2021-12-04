@@ -160,6 +160,10 @@ uint32_t API_hook(const char *label) {
     HOOK_CASE(BMP_setAlphaColor)
     HOOK_CASE(BMP_release)
 
+    HOOK_CASE(SPRITE_load)
+    HOOK_CASE(SPRITE_blit)
+    HOOK_CASE(SPRITE_free)
+
     HOOK_CASE(UI_Menu_Init)
     HOOK_CASE(UI_Menu_Draw)
     HOOK_CASE(UI_Menu_Next)

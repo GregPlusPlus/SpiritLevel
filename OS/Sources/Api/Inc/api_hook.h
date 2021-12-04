@@ -9,6 +9,7 @@
 #include "fatfs.h"
 #include "ui.h"
 #include "utils.h"
+#include "sprite.h"
 
 uint32_t API_hook(const char *label);
 
